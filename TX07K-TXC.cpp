@@ -1,3 +1,5 @@
+
+#include "Arduino.h" 
 #include "TX07K-TXC.h"
 
 unsigned int TX07KTXC::syncIndex1 = 0;
@@ -5,9 +7,9 @@ unsigned int TX07KTXC::syncIndex2 = 0;
 bool TX07KTXC::received = false;
 uint8_t TX07KTXC::interruptPin = 0;
 unsigned long TX07KTXC::receivedMillis = 0;
-uint8_t TX07KTXC::enablePin = 0;
 unsigned long TX07KTXC::timings[RING_BUFFER_SIZE];
 void (*TX07KTXC::TemperatureChanged)(double, uint8_t, uint8_t, uint8_t*, bool);
+uint8_t TX07KTXC::enablePin = 0;
 
 bool TX07KTXC::isSync(unsigned int idx)
 {
@@ -26,18 +28,18 @@ bool TX07KTXC::isSync(unsigned int idx)
 
 TX07KTXC::TX07KTXC(uint8_t interruptPin, uint8_t enablePin, void (*temperatureChanged)(double, uint8_t, uint8_t, uint8_t*, bool))
 {
-  interruptPin = interruptPin;
-  received = false;
-  syncIndex1 = 0;
-  syncIndex2 = 0;
-  receivedMillis = 0;
-  TemperatureChanged = temperatureChanged;
-  enablePin = enablePin;
+  TX07KTXC::interruptPin = interruptPin;
+  TX07KTXC::received = false;
+  TX07KTXC::syncIndex1 = 0;
+  TX07KTXC::syncIndex2 = 0;
+  TX07KTXC::receivedMillis = 0;
+  TX07KTXC::TemperatureChanged = temperatureChanged;
+  TX07KTXC::enablePin = enablePin;
 }
 
 void TX07KTXC::Init()
 {
-  digitalWrite(enablePin, HIGH);
+  digitalWrite(3, HIGH);
   attachInterrupt(digitalPinToInterrupt(interruptPin), handler, CHANGE);
 }
 
@@ -126,7 +128,7 @@ bool TX07KTXC::Read(byte *bytes)
   return fail;
 }
 
-unsigned long TX07KTXC::CheckCRC(byte *bytes, int crc)
+bool TX07KTXC::CheckCRC(byte *bytes, int crc)
 {
   int rem = 0;
   for(int i = 0; i<9; i++)
