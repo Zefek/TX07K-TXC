@@ -33,4 +33,4 @@ jobs:
 
       - name: Compile Arduino project
         run: |
-          arduino-cli compile --fqbn arduino:avr:uno ./sr
+          arduino-cli compile --fqbn arduino:avr:uno ./src
