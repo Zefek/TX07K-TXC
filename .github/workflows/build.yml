@@ -1,18 +1,22 @@
 name: Build Arduino
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/arduino-lint-action@v2
+        with:
+          library-manager: update
+          compliance: strict
   build:
     runs-on: ubuntu-latest
 
-    steps:
+    steps:          
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Arduino CLI
         run: |
@@ -29,4 +33,4 @@ jobs:
 
       - name: Compile Arduino project
         run: |
-          arduino-cli compile --fqbn arduino:avr:uno ./src
+          arduino-cli compile --fqbn arduino:avr:uno ./sr
