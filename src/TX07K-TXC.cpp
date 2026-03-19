@@ -1,5 +1,5 @@
 
-#include "Arduino.h" 
+#include <Arduino.h>
 #include "TX07K-TXC.h"
 
 unsigned int TX07KTXC::syncIndex1 = 0;
@@ -86,8 +86,6 @@ void TX07KTXC::handler()
 
 bool TX07KTXC::Read(byte *bytes)
 {
-  unsigned long temp = 0;
-  bool negative = false;
   bool fail = false;
   byte b = 0;
   int j = 0;
@@ -171,7 +169,6 @@ void TX07KTXC::CheckTemperature()
         unsigned long sensorId = (bytes[0] << 4) + bytes[1];
         bool transmitedByButton = (bytes[3] & 0x08) != 0;
         double temperature = ((((bytes[4] << 8) + (bytes[5] << 4) + bytes[6]) * 0.1)-90-32) * ((double)5/9);
-        int humidity = (bytes[7] * 10) + bytes[8];
         int channel = bytes[9];
         uint8_t rawData[5];
         rawData[0] = (bytes[0] << 4) + bytes[1];
