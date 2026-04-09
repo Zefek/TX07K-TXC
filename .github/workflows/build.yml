@@ -2,26 +2,27 @@ name: Build Arduino
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: arduino/arduino-lint-action@v2
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: arduino/arduino-lint-action@4de5fc895deecbda2f6b1cc05de7a8fdd5c4c51f  # v2.0.0
         with:
           library-manager: update
           compliance: strict
   build:
     runs-on: ubuntu-latest
 
-    steps:          
+    steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
 
       - name: Install Arduino CLI
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
-          sudo mv bin/arduino-cli /usr/local/bin/
+        uses: arduino/setup-arduino-cli@81d310742121c928ea9c8bbd407b4217b432ae02  # v2.0.0
 
       - name: Initialize Arduino CLI
         run: |
@@ -29,13 +30,13 @@ jobs:
           arduino-cli core update-index
 
       - name: Install required board core
-        run: arduino-cli core install arduino:avr
+        run: arduino-cli core install arduino:avr@1.8.7
 
       - name: Static analysis
         run: |
           sudo apt-get install -y cppcheck
           cppcheck --enable=all --language=c++ --suppress=missingIncludeSystem --suppress=unusedFunction --suppress=unusedStructMember --suppress=noExplicitConstructor --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=cstyleCast --suppress=constParameterCallback --suppress=constParameterPointer --suppress=constVariablePointer --suppress=unsignedLessThanZero --suppress=unsignedPositive --suppress=checkersReport --suppress=noDestructor --suppress=unmatchedSuppression --suppress=variableScope --error-exitcode=1 src/
-      
+
       - name: Compile Arduino project
         run: |
           arduino-cli compile --fqbn arduino:avr:uno ./src
