@@ -12,6 +12,7 @@ void OutsideTemperatureChanged(double temperature, uint8_t channel, uint8_t sens
 
 void setup()
 {
+  Serial.begin(9600);
   outsideTemperatureSensor.Init();
 }
 
