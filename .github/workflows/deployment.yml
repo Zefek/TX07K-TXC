@@ -1,0 +1,44 @@
+name: Deploy TXO7K-TXC Example on Environment
+
+on:
+  deployment:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deployment:
+    runs-on: [self-hosted, iot]
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
+      - name: Initialize Arduino CLI
+        run: |
+          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml core update-index
+
+      - name: Install required board core
+        run: |
+          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml core install arduino:avr@1.8.7
+
+      - name: Install custom Arduino libraries (Windows)
+        shell: powershell
+        run: |
+          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml lib install "TX07K-TXC@1.0.4"
+
+      - name: Compile Arduino project
+        run: |
+          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml compile --fqbn arduino:avr:uno ./examples --output-dir build
+
+      - name: Upload firmware to Arduino
+        env:
+          SERIAL_PORT: ${{ github.event.deployment.payload.serial_port }}
+        run: |
+          if ($env:SERIAL_PORT -notmatch '^COM\d+$') {
+            Write-Error "Invalid serial port format: $env:SERIAL_PORT"
+            exit 1
+          }
+          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml upload --fqbn arduino:avr:uno --port $env:SERIAL_PORT --input-dir build
