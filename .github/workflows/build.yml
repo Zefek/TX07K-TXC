@@ -40,3 +40,4 @@ jobs:
       - name: Compile Arduino project
         run: |
           arduino-cli compile --fqbn arduino:avr:uno ./src
+          arduino-cli compile --fqbn arduino:avr:uno ./example
