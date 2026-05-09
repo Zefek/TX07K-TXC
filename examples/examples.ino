@@ -1,4 +1,4 @@
-#include "../src/TX07K-TXC.h"
+#include <TX07K-TXC.h>
 
 void OutsideTemperatureChanged(double temperature, uint8_t channel, uint8_t sensorId, uint8_t* rawData, bool transmitedByButton);
 
