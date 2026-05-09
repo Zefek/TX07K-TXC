@@ -1,6 +1,9 @@
 name: Build Arduino
 
-on: [push, pull_request]
+push:
+    branches:
+      - main
+  pull_request:
 
 permissions:
   contents: read
