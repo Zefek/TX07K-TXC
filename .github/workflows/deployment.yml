@@ -32,4 +32,4 @@ jobs:
             Write-Error "Invalid serial port format: $env:SERIAL_PORT"
             exit 1
           }
-          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml upload --profile TX07K-TXC_Uno --port $env:SERIAL_PORT --input-dir build
+          & "$Env:RUNNER_TOOL_CACHE\arduino-cli\arduino-cli.exe" --config-file config.yaml upload ./examples --port $env:SERIAL_PORT --input-dir build

@@ -40,5 +40,5 @@ jobs:
 
       - name: Compile Arduino project
         run: |
-          arduino-cli compile --profile TX07K-TXC_Uno ./src
-          arduino-cli compile --profile TX07K-TXC_Uno ./examples
+          arduino-cli compile ./src
+          arduino-cli compile ./examples
