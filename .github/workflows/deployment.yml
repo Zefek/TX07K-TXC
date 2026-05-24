@@ -6,6 +6,9 @@ on:
       serial_port:
         required: true
         type: string
+      environment:
+        required: false
+        type: string
 
 permissions:
   contents: read
