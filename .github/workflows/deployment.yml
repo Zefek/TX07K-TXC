@@ -1,7 +1,11 @@
 name: Deploy TXO7K-TXC Example on Environment
 
 on:
-  deployment:
+  workflow_dispatch:
+    inputs:
+      serial_port:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -26,7 +30,7 @@ jobs:
 
       - name: Upload firmware to Arduino
         env:
-          SERIAL_PORT: ${{ github.event.deployment.payload.serial_port }}
+          SERIAL_PORT: ${{ github.event.inputs.serial_port }}
         run: |
           if ($env:SERIAL_PORT -notmatch '^COM\d+$') {
             Write-Error "Invalid serial port format: $env:SERIAL_PORT"
