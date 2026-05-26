@@ -1,4 +1,4 @@
-[submodule "usage/MQTTESP8266"]
-	path = usage/MQTTESP8266
+[submodule "extras/MQTTESP8266"]
+	path = extras/MQTTESP8266
 	url = https://github.com/Zefek/MQTTESP8266.git
 	branch = 6.0
