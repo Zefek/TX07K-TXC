@@ -42,3 +42,4 @@ jobs:
         run: |
           arduino-cli compile ./src
           arduino-cli compile ./examples
+          arduino-cli compile ./usage/TX07K_MQTT
