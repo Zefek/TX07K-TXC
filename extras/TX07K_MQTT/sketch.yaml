@@ -1,0 +1,9 @@
+profiles:
+  TX07K-TXC_MQTT_Uno:
+    fqbn: arduino:avr:uno
+    platforms:
+      - platform: arduino:avr (1.8.7)
+    libraries:
+      - dir: "../../src"
+      - dir: "../MQTTESP8266"
+default_profile: TX07K-TXC_MQTT_Uno
